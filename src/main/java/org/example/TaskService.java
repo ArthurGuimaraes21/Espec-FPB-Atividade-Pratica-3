@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class TaskService {
+
+    EmailNotificacaoService emailNotificacaoService = new EmailNotificacaoService();
+    SMSNotificacaoService smsNotificacaoService = new SMSNotificacaoService();
     private ArrayList<String> taskList = new ArrayList<>();
     public String list() throws FileNotFoundException {
         if (taskList.isEmpty())  throw new FileNotFoundException( "Não há tarefas disponíveis!" );
@@ -11,6 +14,10 @@ public class TaskService {
         String result = "";
         for(int i = 0; i < taskList.size(); i++)
             result +=  (i+1) + ". " + taskList.get(i) + "\n" ;
+
+        emailNotificacaoService.enviarNotificacao();
+        smsNotificacaoService.enviarNotificacao();
+
         return result;
     }
 
@@ -19,6 +26,9 @@ public class TaskService {
             if (task.isEmpty())  {
                 throw new FileNotFoundException( "Tarefa não pode ser vazia!" );
             }
+
+            emailNotificacaoService.enviarNotificacao();
+            smsNotificacaoService.enviarNotificacao();
 
             taskList.add(task.trim());
 
@@ -40,6 +50,9 @@ public class TaskService {
 
             String oldTask = taskList.get(index-1);
 
+            emailNotificacaoService.enviarNotificacao();
+            smsNotificacaoService.enviarNotificacao();
+
             taskList.set(index-1, task.trim());
 
             return "Tarefa '" + oldTask + "' modificada para '" + task + "'!";
@@ -59,6 +72,9 @@ public class TaskService {
     public String remove(int index) throws Exception {
         try {
             String oldTask = taskList.get(index-1);
+
+            emailNotificacaoService.enviarNotificacao();
+            smsNotificacaoService.enviarNotificacao();
 
             taskList.remove(index-1);
 

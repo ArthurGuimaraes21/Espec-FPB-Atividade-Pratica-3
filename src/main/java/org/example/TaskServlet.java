@@ -13,7 +13,6 @@ import java.util.ArrayList;
 @WebServlet("/task")
 public class TaskServlet extends HttpServlet {
 
-    ArrayList<String> taskList = new ArrayList<>();
     TaskService taskService = new TaskService();
 
     @Override
